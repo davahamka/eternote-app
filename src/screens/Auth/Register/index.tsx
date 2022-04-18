@@ -20,8 +20,8 @@ type FormData = {
 const RegisterScreen = () => {
   const {
     control,
-    handleSubmit,
-    formState: { errors },
+    // handleSubmit,
+    // formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       name: '',
@@ -31,7 +31,7 @@ const RegisterScreen = () => {
     },
   });
 
-  const onSubmit = handleSubmit(() => {});
+  //   const onSubmit = handleSubmit(() => {});
 
   return (
     <ScrollView>
