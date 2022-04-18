@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
-import { store } from '../store';
 import { BASE_API, CMS_API, ML_API } from './constants';
 
 export const cmsFetch = axios.create({
