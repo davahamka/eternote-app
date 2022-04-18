@@ -34,7 +34,7 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name='Home'
+              name='HomeTab'
               component={HomeTabNavigation}
               options={{ headerShown: false }}
             />

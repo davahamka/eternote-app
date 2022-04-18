@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
+import { store } from '../store';
 import { BASE_API, CMS_API, ML_API } from './constants';
 
 export const cmsFetch = axios.create({
@@ -12,5 +14,9 @@ export const baseFetch = axios.create({
 export const mlFetch = axios.create({
   baseURL: ML_API,
 });
+
+// baseFetch.interceptors.request.use(config => {
+//   // config.headers.authorization = store.getState().auth.token as string;
+// });
 
 export type FetchStatus = 'idle' | 'pending' | 'succeeded' | 'failed';

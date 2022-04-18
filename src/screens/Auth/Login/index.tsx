@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Box,
   Input,
@@ -11,29 +11,40 @@ import {
 } from 'native-base';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Controller, useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { loginAuth } from '../../../modules/auth/authSlice';
+import { LoginRequest } from '../../../modules/auth/entities';
+import { StackActions } from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<any, 'Login'>;
-type FormData = {
-  email: string;
-  password: string;
-};
 
 const LoginScreen = ({ navigation }: Props) => {
   const inputPasswordRef = useRef<any>();
+  const [error, setError] = useState('');
+  const dispatch = useAppDispatch();
+  const { status } = useAppSelector(state => state.auth);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<LoginRequest>({
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = handleSubmit(() => {
-    navigation.navigate('Home');
+  const onSubmit = handleSubmit(data => {
+    dispatch(loginAuth(data))
+      .unwrap()
+      .then(() => {
+        navigation.dispatch(StackActions.pop(1));
+        navigation.dispatch(StackActions.replace('HomeTab'));
+      })
+      .catch(rejectedValueOrSerializedError => {
+        setError(rejectedValueOrSerializedError.message);
+      });
   });
 
   return (
@@ -47,6 +58,11 @@ const LoginScreen = ({ navigation }: Props) => {
         {(!!errors.email || !!errors.password) && (
           <Text fontSize='xs' color='error'>
             Check your input again.
+          </Text>
+        )}
+        {!errors.email && !errors.password && (
+          <Text color='error' fontSize='xs'>
+            {error}
           </Text>
         )}
         <VStack>
@@ -100,6 +116,7 @@ const LoginScreen = ({ navigation }: Props) => {
           </Text>
 
           <Button
+            isLoading={status === 'pending'}
             marginTop='36px'
             bgColor='primary'
             py='12px'
