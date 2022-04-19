@@ -1,20 +1,30 @@
 import React from 'react';
-import { Box, Button, HStack, Text } from 'native-base';
+import { Box, Button, HStack, Image, Text } from 'native-base';
+import { DataTask } from '../../../../modules/tasks/entities';
+import { useDispatch } from 'react-redux';
+import { openTask } from '../../../../modules/homeSlice';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ItemTask = () => {
+type Props = {
+  data: DataTask;
+};
+
+const ItemTask = ({ data }: Props) => {
+  const dispatch = useDispatch();
+
   return (
     <Box
-      width='200px'
+      width='270px'
       borderColor='neutral.gainsboro'
       borderWidth='1px'
-      height='98px'
+      height='120px'
       padding='12px'
       borderRadius='xl'
       display='flex'
       justifyContent='space-between'>
       <Box width='84%'>
         <Text fontSize='xs' fontWeight='semibold'>
-          Turn off the lights before going out
+          {data.attributes.title}
         </Text>
       </Box>
       <Box
@@ -22,12 +32,24 @@ const ItemTask = () => {
         flexDirection='row'
         alignItems='center'
         justifyContent='space-between'>
-        <HStack>
-          <Text fontSize='xs'>10 pts</Text>
+        <HStack space={1}>
+          <Image
+            source={require('../../../../assets/ic_coin.png')}
+            size='16px'
+            alt='info'
+          />
+          <Text fontSize='xs'>{data.attributes.point} points</Text>
         </HStack>
-        <Button bg='#1CCC98'>
+        <Button
+          bg='#1CCC98'
+          width='100px'
+          alignItems='center'
+          leftIcon={<Icon name='plus-circle' color='white' />}
+          onPress={() => {
+            dispatch(openTask(data));
+          }}>
           <Text fontSize='xs' color='white'>
-            Pilih
+            Select
           </Text>
         </Button>
       </Box>

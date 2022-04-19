@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Button,
@@ -8,7 +8,6 @@ import {
   ScrollView,
   Text,
   TextArea,
-  View,
   VStack,
 } from 'native-base';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -19,6 +18,10 @@ import Pill from '../../../components/ui/Pill';
 
 import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import TaskSheet from '../../../components/screens/home/TaskSheet';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { checkAuth } from '../../../modules/auth/authSlice';
+import PlanSheet from '../../../components/screens/home/PlanSheet';
 
 type Props = NativeStackScreenProps<any, 'Home'>;
 
@@ -27,151 +30,34 @@ const HomeScreen = ({}: Props) => {
     SheetManager.show('add_plan');
   };
 
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector(state => state.auth);
+
+  useEffect(() => {
+    dispatch(checkAuth('x'));
+  }, [dispatch]);
+
   return (
     <>
       <Fab
+        bg='warning'
         position='absolute'
         bottom='80px'
-        bg='white'
         width='60'
         height='60'
         onPress={onOpenPlan}
-        icon={<Icon name='plus' size={26} color='#000' />}
+        icon={<Icon name='plus' size={26} color='#fff' />}
       />
       <ScrollView bg='white' position='relative'>
-        <ActionSheet id='add_task'>
-          <View height='90%'>
-            <Text>Hello World</Text>
-          </View>
-        </ActionSheet>
+        <TaskSheet />
 
-        <ActionSheet
-          id='add_plan'
-          gestureEnabled={true}
-          headerAlwaysVisible={true}>
-          <ScrollView width='full' pt='20px' px='18px' pb='24px'>
-            <VStack space='12px' height='60%'>
-              <Box>
-                <Text
-                  color='neutral.characoal'
-                  textAlign='left'
-                  mb='4px'
-                  fontSize='xs'
-                  fontWeight='semibold'>
-                  TITLE
-                </Text>
-                <HStack display='flex' flexDir='row' space='2%'>
-                  <Box
-                    rounded='xl'
-                    width='18%'
-                    display='flex'
-                    borderWidth='1'
-                    borderColor='neutral.ashgrey'
-                    alignItems='center'
-                    justifyContent='center'>
-                    <Text>🎉</Text>
-                  </Box>
-                  <Input
-                    placeholder='Insert your plan'
-                    width='80%'
-                    px='14px'
-                    borderColor='neutral.ashgrey'
-                    bg='neutral.issabeline'
-                    rounded='xl'
-                  />
-                </HStack>
-              </Box>
-              <Box>
-                <Text
-                  mb='4px'
-                  fontSize='xs'
-                  color='neutral.characoal'
-                  fontWeight='semibold'>
-                  DESCRIPTION
-                </Text>
-                <TextArea
-                  autoCompleteType
-                  width='full'
-                  placeholder='Description about your plan (not required)'
-                />
-              </Box>
-              <Box>
-                <Text
-                  mb='4px'
-                  fontSize='xs'
-                  fontWeight='semibold'
-                  color='neutral.characoal'>
-                  CATEGORY
-                </Text>
-                <HStack flexWrap='wrap' space='4px'>
-                  <Box mb='8px'>
-                    <Pill onPress={() => {}} width='auto' px='12px'>
-                      <Text fontSize='xs'>Swimming</Text>
-                    </Pill>
-                  </Box>
-                  <Box mb='8px'>
-                    <Pill onPress={() => {}} width='auto' px='12px'>
-                      <Text fontSize='xs'>Swimming</Text>
-                    </Pill>
-                  </Box>
-                  <Box mb='8px'>
-                    <Pill onPress={() => {}} width='auto' px='12px'>
-                      <Text fontSize='xs'>Swimming</Text>
-                    </Pill>
-                  </Box>
-                  <Box mb='8px'>
-                    <Pill onPress={() => {}} width='auto' px='12px'>
-                      <Text fontSize='xs'>Swimming</Text>
-                    </Pill>
-                  </Box>
-                  <Box mb='8px'>
-                    <Pill onPress={() => {}} width='auto' px='12px'>
-                      <Text fontSize='xs'>+</Text>
-                    </Pill>
-                  </Box>
-                </HStack>
-              </Box>
-              <Box>
-                <Text
-                  fontSize='xs'
-                  mb='4px'
-                  color='neutral.characoal'
-                  fontWeight='semibold'>
-                  CALENDAR
-                </Text>
-                <Button bg='neutral.richblack' rounded='xl'>
-                  New Reminder
-                </Button>
-              </Box>
-              <Box>
-                <Text
-                  fontSize='xs'
-                  mb='4px'
-                  color='neutral.characoal'
-                  fontWeight='semibold'>
-                  REMINDER
-                </Text>
-                <Button bg='neutral.richblack' rounded='xl'>
-                  New Reminder
-                </Button>
-              </Box>
-              <Button
-                bg='primary'
-                width='full'
-                rounded='full'
-                height='48px'
-                mt='64px'>
-                <Text color='white'>Add Plan</Text>
-              </Button>
-            </VStack>
-          </ScrollView>
-        </ActionSheet>
+        <PlanSheet />
 
         <Box paddingX='18px'>
           <Text mt='24px' fontSize='lg'>
             Welcome,{' '}
             <Text fontWeight='bold' fontSize='lg'>
-              Dava!
+              {user?.name}!
             </Text>
           </Text>
           <Box display='flex' flexDir='row' alignItems='center' mt='10px'>
@@ -202,7 +88,7 @@ const HomeScreen = ({}: Props) => {
             rounded='xl'>
             <Box width='58%'>
               <Text fontSize='xl' fontWeight='medium' color='white'>
-                Planter progress
+                {user?.level} progress
               </Text>
               <Text fontSize='xs' color='white'>
                 Excellent, your planter progress almost done.
@@ -240,7 +126,7 @@ const HomeScreen = ({}: Props) => {
             Save our world start with doing the little things
           </Text>
           <Text mt='6px' color='neutral.cadet'>
-            You can add this “little things” below to your today’s or upcoming’s
+            You can add this “little things” below to your today’s or upcoming's
             plan:
           </Text>
           <Box mt='10px'>

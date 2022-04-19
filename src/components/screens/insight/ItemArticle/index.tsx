@@ -24,8 +24,7 @@ const ItemArticle = ({ data }: Props) => {
         <Box width='30%'>
           <Image
             source={{
-              uri:
-                CMS_URL + data.attributes.thumbnail.data.attributes.previewUrl,
+              uri: CMS_URL + data.attributes.thumbnail.data.attributes.url,
             }}
             width='full'
             height='96px'

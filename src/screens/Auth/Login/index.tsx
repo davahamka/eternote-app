@@ -77,6 +77,7 @@ const LoginScreen = ({ navigation }: Props) => {
                 placeholder='Username'
                 returnKeyType='next'
                 bgColor='neutral.ghost'
+                type='email'
                 borderColor='secondary2'
                 rounded='2xl'
                 onSubmitEditing={() => {

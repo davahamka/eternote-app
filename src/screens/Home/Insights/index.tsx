@@ -17,6 +17,7 @@ const InsightsScreen = () => {
   useEffect(() => {
     dispatch(fetchArticles());
   }, [dispatch]);
+
   return (
     <ScrollView>
       <View paddingX='16px' bgColor='white' paddingBottom='48px'>

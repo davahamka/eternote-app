@@ -71,6 +71,11 @@ export interface DataArticle {
   attributes: Article;
 }
 
+export interface ArticleResponse {
+  data: DataArticle;
+  meta: Meta;
+}
+
 export interface ArticlesResponse {
   data: DataArticle[];
   meta: Meta;

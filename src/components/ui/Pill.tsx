@@ -17,7 +17,7 @@ const Pill: React.FC<Props> = ({
   active,
   width,
   px,
-  activeBgColor = 'primary',
+  activeBgColor = 'success',
   activeTextColor = 'white',
   defaultBgColor = '#EDEDED',
   defaultTextColor = '#000',

@@ -1,10 +1,19 @@
 import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Box, Button, Center, Text, VStack, Image, HStack } from 'native-base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type Props = NativeStackScreenProps<any, 'Information'>;
 
 const InformationScreen = ({ navigation }: Props) => {
+  const checkIfTokenExistRedirect = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (token) {
+      navigation.navigate('HomeTab');
+    }
+  };
+
+  checkIfTokenExistRedirect();
   return (
     <Box paddingX='32px' marginTop='104px'>
       <VStack>

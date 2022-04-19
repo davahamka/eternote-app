@@ -11,21 +11,19 @@ import {
   View,
   VStack,
 } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { checkAuth } from '../../../modules/auth/authSlice';
+import { checkAuth, logout } from '../../../modules/auth/authSlice';
 
 const AccountScreen = () => {
   const navigation = useNavigation<any>();
   const dispatch = useAppDispatch();
-  const { user, status } = useAppSelector(state => state.auth);
+  const { user } = useAppSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(checkAuth('x'));
   }, [dispatch]);
 
-  console.log(status);
-  console.log(user);
   return (
     <ScrollView>
       <View bgColor='white' paddingX='16px'>
@@ -120,6 +118,11 @@ const AccountScreen = () => {
           <Divider />
 
           <Button
+            onPress={() => {
+              dispatch(logout());
+              navigation.dispatch(StackActions.pop());
+              navigation.dispatch(StackActions.replace('Information'));
+            }}
             rounded='full'
             py={'12px'}
             bgColor='black'

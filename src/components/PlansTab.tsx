@@ -5,9 +5,15 @@ import { useWindowDimensions } from 'react-native';
 import { SceneMap, TabView } from 'react-native-tab-view';
 import ListPlan from './screens/home/ListPlan';
 
+const data = [
+  { title: 'Attend webinar', emoji: '💻' },
+  { title: "Fix Modric' computer", emoji: '🖥' },
+  { title: 'Go to buchery', emoji: '🍖' },
+];
+
 const FirstRoute = () => (
   <View height='100%'>
-    <ListPlan />
+    <ListPlan data={data} />
   </View>
 );
 
