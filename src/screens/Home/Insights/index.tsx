@@ -1,8 +1,9 @@
 import { HStack, ScrollView, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import Pill from '../../../components/ui/Pill';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch } from '../../../hooks';
 import { fetchArticles } from '../../../modules/articles/articlesSlice';
+
 import Article from './Article';
 import Bookmark from './Bookmark';
 import Discover from './Discover';
@@ -11,11 +12,7 @@ import Recent from './Recent';
 
 const InsightsScreen = () => {
   const [option, setOption] = useState('Discover');
-  const { articles, status } = useAppSelector(state => state.articles);
   const dispatch = useAppDispatch();
-
-  console.log(status);
-  console.log('articles ', articles);
 
   useEffect(() => {
     dispatch(fetchArticles());

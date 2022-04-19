@@ -9,6 +9,8 @@ import {
   VStack,
 } from 'native-base';
 import { Controller, useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../../hooks';
+import { registerAuth } from '../../../modules/auth/authSlice';
 
 type FormData = {
   name: string;
@@ -18,9 +20,10 @@ type FormData = {
 };
 
 const RegisterScreen = () => {
+  const dispatch = useAppDispatch();
   const {
     control,
-    // handleSubmit,
+    handleSubmit,
     // formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -31,7 +34,9 @@ const RegisterScreen = () => {
     },
   });
 
-  //   const onSubmit = handleSubmit(() => {});
+  const onSubmit = handleSubmit(data => {
+    dispatch(registerAuth(data));
+  });
 
   return (
     <ScrollView>
@@ -119,7 +124,12 @@ const RegisterScreen = () => {
               name='confirmPassword'
             />
 
-            <Button marginTop='36px' bgColor='primary' py='12px' rounded='full'>
+            <Button
+              onPress={onSubmit}
+              marginTop='36px'
+              bgColor='primary'
+              py='12px'
+              rounded='full'>
               Register
             </Button>
           </VStack>

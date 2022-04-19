@@ -1,8 +1,8 @@
 import { View } from 'native-base';
 import React from 'react';
 
-const DetailArticleScreen = () => {
+const DetailEventScreen = () => {
   return <View></View>;
 };
 
-export default DetailArticleScreen;
+export default DetailEventScreen;

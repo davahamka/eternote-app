@@ -9,6 +9,9 @@ import RegisterScreen from './src/screens/Auth/Register';
 import HomeTabNavigation from './src/navigation/HomeTabNavigation';
 import { Provider } from 'react-redux';
 import { store } from './src/store';
+import DetailArticleScreen from './src/screens/Home/DetailArticle';
+import DetailEventScreen from './src/screens/Home/DetailEvent';
+import BadgeScreen from './src/screens/Home/Badge';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -37,6 +40,21 @@ const App = () => {
               name='HomeTab'
               component={HomeTabNavigation}
               options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='Badge'
+              component={BadgeScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='DetailArticle'
+              component={DetailArticleScreen}
+              options={({ route }) => ({ title: (route.params as any).title })}
+            />
+            <Stack.Screen
+              name='DetailEvent'
+              component={DetailEventScreen}
+              options={({ route }) => ({ title: (route.params as any).title })}
             />
           </Stack.Navigator>
         </NavigationContainer>
