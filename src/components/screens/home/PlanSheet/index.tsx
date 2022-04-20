@@ -3,24 +3,35 @@ import {
   Box,
   Button,
   HStack,
+  Image,
   Input,
+  Pressable,
   ScrollView,
   Text,
   TextArea,
+  useToast,
   VStack,
 } from 'native-base';
-import ActionSheet from 'react-native-actions-sheet';
+import ActionSheet, { SheetManager } from 'react-native-actions-sheet';
 import Pill from '../../../ui/Pill';
 import BoxOptionReminder from './BoxOptionReminder';
 
 const PlanSheet = () => {
-  const [category, setCategory] = useState('');
-  const [reminder, setReminder] = useState<Array<string>>([]);
+  const [category, setCategory] = useState('task');
+  const [reminder, setReminder] = useState<Array<string>>(['5 minutes before']);
   const [reminderType, setReminderType] = useState('');
+  const [color, setColor] = useState('#fff');
 
+  const handleAddReminder = (data: string) => {
+    if (reminder.findIndex(data) != -1) {
+      setReminder(r => [...r, data]);
+    }
+  };
+
+  const toast = useToast();
   return (
     <ActionSheet id='add_plan' gestureEnabled={true} headerAlwaysVisible={true}>
-      <ScrollView width='full' pt='20px' px='18px' nestedScrollEnabled={true}>
+      <ScrollView width='94%' pt='20px' px='18px' nestedScrollEnabled={true}>
         <VStack space='12px'>
           <Box>
             <Text
@@ -61,7 +72,7 @@ const PlanSheet = () => {
               DESCRIPTION
             </Text>
             <TextArea
-              autoCompleteType
+              autoCompleteType={true}
               width='full'
               placeholder='Description about your plan (not required)'
             />
@@ -76,8 +87,15 @@ const PlanSheet = () => {
             </Text>
             <HStack flexWrap='wrap' space='8px'>
               {categoryOptions.map(item => (
-                <Box mb='10px'>
-                  <Pill onPress={() => {}} width='auto' px='16px'>
+                <Box mb='10px' key={item.name}>
+                  <Pill
+                    activeBgColor='primary'
+                    active={category === item.value}
+                    onPress={() => {
+                      setCategory(item.value);
+                    }}
+                    width='auto'
+                    px='16px'>
                     <Text fontSize='xs'>{item.name}</Text>
                   </Pill>
                 </Box>
@@ -92,9 +110,19 @@ const PlanSheet = () => {
               fontWeight='semibold'>
               CALENDAR
             </Text>
-            <Button bg='neutral.richblack' rounded='xl'>
+            <Box display='flex' flexDir='row' justifyContent='space-between'>
+              <Box>
+                <Text fontSize='xs'>START DATE</Text>
+                <Text fontSize='sm'>20 April 2022 - 07.00AM</Text>
+              </Box>
+              <Box>
+                <Text fontSize='xs'>END DATE</Text>
+                <Text fontSize='sm'>20 April 2022 - 08.00AM</Text>
+              </Box>
+            </Box>
+            {/* <Button bg='neutral.richblack' rounded='xl'>
               New Reminder
-            </Button>
+            </Button> */}
           </Box>
           <Box>
             <Text
@@ -106,8 +134,12 @@ const PlanSheet = () => {
             </Text>
             <VStack space={3} w='100%'>
               <HStack space='4%'>
-                <BoxOptionReminder>{reminderOptions[0].name}</BoxOptionReminder>
-                <BoxOptionReminder>{reminderOptions[1].name}</BoxOptionReminder>
+                <BoxOptionReminder active={true}>
+                  {reminderOptions[0].name}
+                </BoxOptionReminder>
+                <BoxOptionReminder active={true}>
+                  {reminderOptions[1].name}
+                </BoxOptionReminder>
               </HStack>
               <HStack space='4%'>
                 <BoxOptionReminder>{reminderOptions[2].name}</BoxOptionReminder>
@@ -137,38 +169,107 @@ const PlanSheet = () => {
             </Text>
             <VStack space={3} w='100%'>
               <HStack space='4%'>
-                <BoxOptionReminder>
+                <BoxOptionReminder
+                  active={reminderTypeOptions[0].name === reminderType}
+                  onPress={() => {
+                    setReminderType(reminderTypeOptions[0].name);
+                  }}>
                   {reminderTypeOptions[0].name}
                 </BoxOptionReminder>
-                <BoxOptionReminder>
+                <BoxOptionReminder
+                  active={reminderTypeOptions[1].name === reminderType}
+                  onPress={() => {
+                    setReminderType(reminderTypeOptions[1].name);
+                  }}>
                   {reminderTypeOptions[1].name}
                 </BoxOptionReminder>
               </HStack>
               <HStack space='4%'>
-                <BoxOptionReminder>
+                <BoxOptionReminder
+                  active={reminderTypeOptions[2].name === reminderType}
+                  onPress={() => {
+                    setReminderType(reminderTypeOptions[2].name);
+                  }}>
                   {reminderTypeOptions[2].name}
                 </BoxOptionReminder>
-                <BoxOptionReminder>
+                <BoxOptionReminder
+                  active={reminderTypeOptions[3].name === reminderType}
+                  onPress={() => {
+                    setReminderType(reminderTypeOptions[3].name);
+                  }}>
                   {reminderTypeOptions[3].name}
                 </BoxOptionReminder>
               </HStack>
             </VStack>
           </Box>
           <Box>
+            <Box>
+              <Text
+                fontSize='xs'
+                mb='4px'
+                color='neutral.characoal'
+                fontWeight='semibold'>
+                COLOR
+              </Text>
+              <Box display='flex' flexDir='row' justifyContent='space-between'>
+                <Text>Plan Color</Text>
+                <Box
+                  width='36px'
+                  height='36px'
+                  bg={color}
+                  borderWidth='1'
+                  borderColor='gray'
+                />
+              </Box>
+            </Box>
             <Text
               fontSize='xs'
               mb='4px'
               color='neutral.characoal'
               fontWeight='semibold'>
-              PLAN CARD COLOR
+              Choose
             </Text>
+            <HStack space='4'>
+              <Pressable
+                onPress={() => {
+                  setColor('#83DB8B');
+                }}>
+                <Box bg='#83DB9B' width='36px' height='36px' />
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  setColor('#8BC7FF');
+                }}>
+                <Box bg='#8BC7FF' width='36px' height='36px' />
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  setColor('#FFBC58');
+                }}>
+                <Box bg='#FFBC58' width='36px' height='36px' />
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  setColor('#EBA1ED');
+                }}>
+                <Box bg='#EBA1ED' width='36px' height='36px' />
+              </Pressable>
+            </HStack>
           </Box>
+
           <Button
             bg='primary'
             width='full'
             rounded='full'
             height='48px'
             mb='64px'
+            onPress={() => {
+              SheetManager.hideAll();
+              toast.show({
+                title: 'Plan successfully added',
+                placement: 'top',
+              });
+            }}
             mt='64px'>
             <Text color='white'>Add Plan</Text>
           </Button>
@@ -198,17 +299,17 @@ const reminderTypeOptions = [
 ];
 
 const categoryOptions = [
-  {
-    name: 'Work',
-    value: 'work',
-  },
+  // {
+  //   name: 'Task',
+  //   value: 'task',
+  // },
   {
     name: 'Exercise',
-    value: 'work',
+    value: 'Exercise',
   },
   {
     name: 'Needs',
-    value: 'work',
+    value: 'wNeedsork',
   },
   {
     name: 'Trip',
@@ -216,7 +317,7 @@ const categoryOptions = [
   },
   {
     name: 'Daily',
-    value: 'work',
+    value: 'Daily',
   },
   {
     name: 'Shopping',

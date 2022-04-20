@@ -19,7 +19,7 @@ const InformationScreen = ({ navigation }: Props) => {
       <VStack>
         <Center>
           <Image
-            source={require('../../../assets/info_handphone.png')}
+            source={require('../../../assets/info_hand.png')}
             size='168px'
             alt='info'
           />
@@ -28,9 +28,11 @@ const InformationScreen = ({ navigation }: Props) => {
           <Text fontSize='3xl' fontWeight='bold'>
             Plan Your Work
           </Text>
-          <Text textAlign='center'>
-            Easily plan your work with one touch and simply integrate with your
-            calendar
+          <Text textAlign='center' fontSize='lg'>
+            Make Plan, Save Earth.
+          </Text>
+          <Text textAlign='center' fontSize='lg'>
+            Take the first step in living a sustainable lifestyle for our earth
           </Text>
         </Center>
 

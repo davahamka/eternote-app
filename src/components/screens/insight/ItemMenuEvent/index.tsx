@@ -1,13 +1,18 @@
 import { Box, Image, Text } from 'native-base';
 import React from 'react';
 
-const ItemMenuEvent = () => {
+type Props = {
+  data: {
+    name: string;
+    imgSrc: any;
+  };
+};
+
+const ItemMenuEvent = ({ data }: Props) => {
   return (
     <Box position='relative'>
       <Image
-        source={{
-          uri: 'https://static.wikia.nocookie.net/akb48/images/b/bd/Zee_Darashinai_Aishikata.jpg/revision/latest/scale-to-width-down/250?cb=20210807084938',
-        }}
+        source={data.imgSrc}
         width='142px'
         height='123px'
         rounded='2xl'
@@ -22,7 +27,7 @@ const ItemMenuEvent = () => {
         px='2'
         rounded='3xl'>
         <Text color='neutral.ghost' fontSize='xs'>
-          Charity
+          {data?.name}
         </Text>
       </Box>
     </Box>

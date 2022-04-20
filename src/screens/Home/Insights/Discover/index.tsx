@@ -15,6 +15,17 @@ const Discover = () => {
 
   return (
     <>
+      <Text
+        fontSize='3xl'
+        fontWeight='bold'
+        marginTop={'18px'}
+        marginBottom='8px'>
+        Event
+      </Text>
+
+      <ListMenuEvent />
+
+      <ListEvent />
       <Text fontSize='3xl' fontWeight='bold' marginTop={'18px'}>
         Article
       </Text>
@@ -57,18 +68,6 @@ const Discover = () => {
       )}
 
       <ListArticle articles={anotherArticles} />
-
-      <Text
-        fontSize='3xl'
-        fontWeight='bold'
-        marginTop={'18px'}
-        marginBottom='8px'>
-        Event
-      </Text>
-
-      <ListMenuEvent />
-
-      <ListEvent />
     </>
   );
 };
